@@ -12,12 +12,12 @@ import lombok.Builder;
 import lombok.NoArgsConstructor;
 
 
-@Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Table(name ="tickets")
+@Entity
 public class Ticket {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,8 +25,13 @@ public class Ticket {
     private double amount;
     private String description;
     private String status; // "Pending", "Approved", "Denied"
+    private String createdBy;
 
-    @ManyToOne
-    private Users createdBy;
+    public Ticket(double amount, String description, String username){
+        this.amount = amount;
+        this.description = description;
+        this.status = "Pending";
+        this.createdBy = username;
+    }
 }
 
