@@ -13,6 +13,7 @@ import java.util.*;
 
 
 @RestController
+@RequestMapping("/api")
 public class ReimburseController {
 	private TicketService ticketService;
 	private UserService userService;
@@ -58,12 +59,12 @@ public class ReimburseController {
 		return ResponseEntity.status(200).body(ticketService.getTicketsForUser(users.getUsername()));
 	}
 
-	@GetMapping("")
+	@GetMapping("/pending")
 	public ResponseEntity<List<Ticket>> getTicketPending(){
 		return ResponseEntity.status(200).body(ticketService.getPendingTickets());
 	}
 
-	@PostMapping("")
+	@PostMapping("/process")
 	public ResponseEntity<Ticket> processTicket(@RequestBody Ticket ticket){
 		try{
 			Ticket newticket = ticketService.processTicket(ticket.getId(), ticket.getStatus());
