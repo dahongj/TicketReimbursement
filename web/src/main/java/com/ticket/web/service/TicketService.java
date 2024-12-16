@@ -28,7 +28,6 @@ public class TicketService {
         }else{
             return null;
         }
-
     }
 
     public List<Ticket> getTicketsForUser(String username) {

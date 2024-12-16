@@ -24,9 +24,9 @@ public class ReimburseController {
 	}
 
 	@PostMapping("/register")
-	public ResponseEntity<Users> register(@RequestBody Users user) {
+	public ResponseEntity<Users> register(@RequestBody Users users) {
 		try{
-			Users newuser = userService.registerUser(user.getUsername(), user.getPassword());
+			Users newuser = userService.registerUser(users.getUsername(), users.getPassword());
 			return ResponseEntity.ok(newuser);
 		}catch(PreexistingUsernameException e){
 			return ResponseEntity.status(409).body(null);
@@ -34,15 +34,24 @@ public class ReimburseController {
 	}
 
 	@GetMapping("/login")
-	public ResponseEntity<Users> login(@RequestBody Users user) {
+	public ResponseEntity<Users> login(@RequestBody Users users) {
 		try{
-			Users loginuser = userService.loginUser(user.getUsername(), user.getPassword());
+			Users loginuser = userService.loginUser(users.getUsername(), users.getPassword());
 			return ResponseEntity.ok(loginuser);
 		}catch(IncorrectLoginException e){
 			return ResponseEntity.status(409).body(null);
 		}
 	}
 
-	
+	@PostMapping("/submit")
+	public ResponseEntity<Ticket> submitTicket(@RequestBody Ticket ticket){
+
+	}
+
+
+	@GetMapping("/users/{username}/tickets")
+	public ResponseEntity<List<Ticket>> getTicketByUser(@RequestBody Users users){
+		return ResponseEntity.status(200).body(ticketService.getTicketsForUser(users.getUsername()));
+	}
 
 }
