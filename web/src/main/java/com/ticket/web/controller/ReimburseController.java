@@ -45,13 +45,34 @@ public class ReimburseController {
 
 	@PostMapping("/submit")
 	public ResponseEntity<Ticket> submitTicket(@RequestBody Ticket ticket){
-
+		try{
+			Ticket newticket = ticketService.submitTicket(ticket.getAmount(), ticket.getDescription(), ticket.getCreatedBy());
+			return ResponseEntity.ok(newticket);
+		}catch(AccountNotPresentException e){
+			return ResponseEntity.status(409).body(null);
+		}
 	}
-
 
 	@GetMapping("/users/{username}/tickets")
 	public ResponseEntity<List<Ticket>> getTicketByUser(@RequestBody Users users){
 		return ResponseEntity.status(200).body(ticketService.getTicketsForUser(users.getUsername()));
+	}
+
+	@GetMapping("")
+	public ResponseEntity<List<Ticket>> getTicketPending(){
+		return ResponseEntity.status(200).body(ticketService.getPendingTickets());
+	}
+
+	@PostMapping("")
+	public ResponseEntity<Ticket> processTicket(@RequestBody Ticket ticket){
+		try{
+			Ticket newticket = ticketService.processTicket(ticket.getId(), ticket.getStatus());
+			return ResponseEntity.status(200).body(newticket);
+		}catch(ProcessedTicketException e){
+			return ResponseEntity.status(409).body(null);
+		}catch(TicketNotFoundException e){
+			return ResponseEntity.status(409).body(null);
+		}
 	}
 
 }

@@ -1,5 +1,6 @@
 package com.ticket.web.service;
 
+import com.ticket.web.exception.AccountNotPresentException;
 import com.ticket.web.exception.ProcessedTicketException;
 import com.ticket.web.exception.TicketNotFoundException;
 import com.ticket.web.models.Ticket;
@@ -19,14 +20,14 @@ public class TicketService {
     private UsersRepository usersRepository;
 
     //Employee Options
-    public Ticket submitTicket(int amount, String description, String username) {
+    public Ticket submitTicket(double amount, String description, String username) throws AccountNotPresentException{
         Optional<Users> acc = usersRepository.findByUsername(username);
 
         if(acc.isPresent()){
             Ticket ticket =new Ticket(amount, description,username);
             return ticketRepository.save(ticket);
         }else{
-            return null;
+            throw new AccountNotPresentException(username);
         }
     }
 
