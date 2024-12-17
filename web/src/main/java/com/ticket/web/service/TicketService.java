@@ -17,22 +17,23 @@ import org.springframework.stereotype.Service;
 public class TicketService {
     @Autowired
     private TicketRepository ticketRepository;
+    @Autowired
     private UsersRepository usersRepository;
 
     //Employee Options
-    public Ticket submitTicket(double amount, String description, String username) throws AccountNotPresentException{
-        Optional<Users> acc = usersRepository.findByUsername(username);
+    public Ticket submitTicket(Integer amount, String description, Integer username) throws AccountNotPresentException{
+        Optional<Users> acc = usersRepository.findById(username);
 
         if(acc.isPresent()){
             Ticket ticket =new Ticket(amount, description,username);
             return ticketRepository.save(ticket);
         }else{
-            throw new AccountNotPresentException(username);
+            throw new AccountNotPresentException("Account not present");
         }
     }
 
-    public List<Ticket> getTicketsForUser(String username) {
-        return ticketRepository.findByCreatedBy(username);
+    public List<Ticket> getTicketsForUser(Integer userid) {
+        return ticketRepository.findByCreatedBy(userid);
     }
 
     //Manager Options

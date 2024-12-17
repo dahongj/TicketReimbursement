@@ -25,7 +25,7 @@ public class UserService {
     }
 
     public Users loginUser(String username, String password) throws IncorrectLoginException{
-        Optional<Users> userExist = userRepository.findByUsername(username);
+        Optional<Users> userExist = userRepository.findByUsernameAndPassword(username,password);
         if (userExist.isPresent()){
             Users user = userExist.get();
             return user;

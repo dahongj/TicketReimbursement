@@ -8,6 +8,6 @@ import java.util.*;
 
 @Repository
 public interface TicketRepository extends JpaRepository<Ticket,Long>{
-    List<Ticket> findByCreatedBy(String username);
+    List<Ticket> findByCreatedBy(Integer createdBy);
     List<Ticket> findByStatus(String status);
 }

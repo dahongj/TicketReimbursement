@@ -8,12 +8,10 @@ import com.ticket.web.models.*;
 import com.ticket.web.exception.*;
 import com.ticket.web.service.*;
 
-import java.lang.annotation.Repeatable;
 import java.util.*;
 
 
 @RestController
-@RequestMapping("/api")
 public class ReimburseController {
 	private TicketService ticketService;
 	private UserService userService;
@@ -34,17 +32,17 @@ public class ReimburseController {
 		}
 	}
 
-	@GetMapping("/login")
+	@PostMapping("/login")
 	public ResponseEntity<Users> login(@RequestBody Users users) {
 		try{
 			Users loginuser = userService.loginUser(users.getUsername(), users.getPassword());
 			return ResponseEntity.ok(loginuser);
 		}catch(IncorrectLoginException e){
-			return ResponseEntity.status(409).body(null);
+			return ResponseEntity.status(401).body(null);
 		}
 	}
 
-	@PostMapping("/submit")
+	@PostMapping("/ticket/submit")
 	public ResponseEntity<Ticket> submitTicket(@RequestBody Ticket ticket){
 		try{
 			Ticket newticket = ticketService.submitTicket(ticket.getAmount(), ticket.getDescription(), ticket.getCreatedBy());
@@ -54,20 +52,20 @@ public class ReimburseController {
 		}
 	}
 
-	@GetMapping("/users/{username}/tickets")
-	public ResponseEntity<List<Ticket>> getTicketByUser(@RequestBody Users users){
-		return ResponseEntity.status(200).body(ticketService.getTicketsForUser(users.getUsername()));
+	@GetMapping("/ticket/{userid}")
+	public ResponseEntity<List<Ticket>> getTicketByUser(@PathVariable int userid){
+		return ResponseEntity.status(200).body(ticketService.getTicketsForUser(userid));
 	}
 
-	@GetMapping("/pending")
+	@GetMapping("/ticket/pending")
 	public ResponseEntity<List<Ticket>> getTicketPending(){
 		return ResponseEntity.status(200).body(ticketService.getPendingTickets());
 	}
 
-	@PostMapping("/process")
-	public ResponseEntity<Ticket> processTicket(@RequestBody Ticket ticket){
+	@PatchMapping("/ticket/process/{ticketid}")
+	public ResponseEntity<Ticket> processTicket(@PathVariable Long ticketid,@RequestBody Ticket ticket){
 		try{
-			Ticket newticket = ticketService.processTicket(ticket.getId(), ticket.getStatus());
+			Ticket newticket = ticketService.processTicket(ticketid, ticket.getStatus());
 			return ResponseEntity.status(200).body(newticket);
 		}catch(ProcessedTicketException e){
 			return ResponseEntity.status(409).body(null);
@@ -75,5 +73,6 @@ public class ReimburseController {
 			return ResponseEntity.status(409).body(null);
 		}
 	}
+	
 
 }
