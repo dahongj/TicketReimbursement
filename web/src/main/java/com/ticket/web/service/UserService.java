@@ -33,4 +33,19 @@ public class UserService {
             throw new IncorrectLoginException("Incorrect Credentials");
         }
     }
+
+    public List<Users> getAllUsers(){
+        return userRepository.findAll();
+    }
+
+    public Users editRole(Integer userid, String role) throws AccountNotPresentException{
+        Optional<Users> userExist = userRepository.findById(userid);
+        if(userExist.isPresent()){
+            Users thisuser = userExist.get();
+            thisuser.setRole(role);
+            return userRepository.save(thisuser);
+        }else{
+            throw new AccountNotPresentException("Unknown user");
+        }
+    }
 }

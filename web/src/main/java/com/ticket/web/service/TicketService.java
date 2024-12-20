@@ -20,7 +20,6 @@ public class TicketService {
     @Autowired
     private UsersRepository usersRepository;
 
-    //Employee Options
     public Ticket submitTicket(Integer amount, String description, Integer username) throws AccountNotPresentException{
         Optional<Users> acc = usersRepository.findById(username);
 
@@ -36,7 +35,6 @@ public class TicketService {
         return ticketRepository.findByCreatedBy(userid);
     }
 
-    //Manager Options
     public List<Ticket> getPendingTickets() {
         return ticketRepository.findByStatus("Pending");
     }

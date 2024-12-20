@@ -11,7 +11,7 @@ public class Ticket {
     private Long ticketid;
     private Integer amount;
     private String description;
-    private String status; // "Pending", "Approved", "Denied"
+    private String status;
     private Integer createdBy;
 
     public Ticket() {
@@ -109,7 +109,7 @@ public class Ticket {
     @Override
     public String toString() {
         return "Ticket{" +
-                "ticketid=" + ticketid +
+                "ticketId=" + ticketid +
                 ", amount=" + amount +
                 ", description='" + description + '\'' +
                 ", status=" + status +
