@@ -43,7 +43,7 @@ public class TicketService {
         Optional<Ticket> ticket = ticketRepository.findById(ticketId);
         if(ticket.isPresent()){
             Ticket foundticket = ticket.get();
-            if(!foundticket.getStatus().equals("Pending")){
+            if(foundticket.getStatus()!="Pending"){
                 foundticket.setStatus(status);
                 return ticketRepository.save(foundticket);
             }else{
