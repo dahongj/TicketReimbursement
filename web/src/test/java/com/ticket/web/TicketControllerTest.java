@@ -27,7 +27,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.util.*;
 
 @ExtendWith(MockitoExtension.class)
-public class TicketTest {
+public class TicketControllerTest {
     @Mock
     private TicketService ticketService;
     @Mock

@@ -40,78 +40,78 @@ public class UserTest {
     public void setUp() {
         mockMvc = MockMvcBuilders.standaloneSetup(reimburseController).build();
     }
-    
+
     @Test
-void testUserConstructorAndGetters() {
-    Users user = new Users(1, "user", "password123");
-    
-    assertThat(user.getAccountId()).isEqualTo(1);
-    assertThat(user.getUsername()).isEqualTo("user");
-    assertThat(user.getPassword()).isEqualTo("password123");
-    assertThat(user.getRole()).isEqualTo("Employee"); 
-}
+    void testUserConstructorAndGetters() {
+        Users user = new Users(1, "user", "password123");
 
-@Test
-void testUserConstructorWithNoId() {
-    Users user = new Users("user", "securepassword");
-    
-    assertThat(user.getUsername()).isEqualTo("user");
-    assertThat(user.getPassword()).isEqualTo("securepassword");
-    assertThat(user.getRole()).isEqualTo("Employee"); 
-}
+        assertThat(user.getAccountId()).isEqualTo(1);
+        assertThat(user.getUsername()).isEqualTo("user");
+        assertThat(user.getPassword()).isEqualTo("password123");
+        assertThat(user.getRole()).isEqualTo("Employee");
+    }
 
-@Test
-void testSetters() {
-    Users user = new Users("oldusername", "oldpassword");
+    @Test
+    void testUserConstructorWithNoId() {
+        Users user = new Users("user", "securepassword");
 
-    user.setAccountId(2);
-    user.setUsername("newusername");
-    user.setPassword("newpassword");
-    user.setRole("Manager");
+        assertThat(user.getUsername()).isEqualTo("user");
+        assertThat(user.getPassword()).isEqualTo("securepassword");
+        assertThat(user.getRole()).isEqualTo("Employee");
+    }
 
-    assertThat(user.getAccountId()).isEqualTo(2);
-    assertThat(user.getUsername()).isEqualTo("newusername");
-    assertThat(user.getPassword()).isEqualTo("newpassword");
-    assertThat(user.getRole()).isEqualTo("Manager"); 
-}
+    @Test
+    void testSetters() {
+        Users user = new Users("oldusername", "oldpassword");
 
-@Test
-void testEqualsMethod() {
-    Users user1 = new Users(1, "user", "password123");
-    Users user2 = new Users(1, "user", "password123");
-    assertThat(user1).isEqualTo(user2);
-    user2.setPassword("newpassword");
-    assertThat(user1).isNotEqualTo(user2);
-    assertThat(user1).isNotEqualTo(null);
-    assertThat(user1).isNotEqualTo("string");
-}
+        user.setAccountId(2);
+        user.setUsername("newusername");
+        user.setPassword("newpassword");
+        user.setRole("Manager");
 
-@Test
-void testToStringMethod() {
-    Users user = new Users(1, "user", "password123");
-    
-    String expectedString = "Users{accountId=1, username='user', password='password123'}";
-    assertThat(user.toString()).isEqualTo(expectedString);
-    user.setUsername("user");
-    user.setPassword("newpassword123");
-    expectedString = "Users{accountId=1, username='user', password='newpassword123'}";
-    assertThat(user.toString()).isEqualTo(expectedString);
-}
+        assertThat(user.getAccountId()).isEqualTo(2);
+        assertThat(user.getUsername()).isEqualTo("newusername");
+        assertThat(user.getPassword()).isEqualTo("newpassword");
+        assertThat(user.getRole()).isEqualTo("Manager");
+    }
 
-@Test
-void testEqualsWithSameObject() {
-    Users user = new Users(1, "user", "password123");
-    assertThat(user).isEqualTo(user);
-}
+    @Test
+    void testEqualsMethod() {
+        Users user1 = new Users(1, "user", "password123");
+        Users user2 = new Users(1, "user", "password123");
+        assertThat(user1).isEqualTo(user2);
+        user2.setPassword("newpassword");
+        assertThat(user1).isNotEqualTo(user2);
+        assertThat(user1).isNotEqualTo(null);
+        assertThat(user1).isNotEqualTo("string");
+    }
 
-@Test
-void testEqualsWithDifferentObjectType() {
-    Users user = new Users(1, "user", "password123");
-    String str = "Not a user object";
-    assertThat(user).isNotEqualTo(str);
-}
+    @Test
+    void testToStringMethod() {
+        Users user = new Users(1, "user", "password123");
 
-@Test
+        String expectedString = "Users{accountId=1, username='user', password='password123'}";
+        assertThat(user.toString()).isEqualTo(expectedString);
+        user.setUsername("user");
+        user.setPassword("newpassword123");
+        expectedString = "Users{accountId=1, username='user', password='newpassword123'}";
+        assertThat(user.toString()).isEqualTo(expectedString);
+    }
+
+    @Test
+    void testEqualsWithSameObject() {
+        Users user = new Users(1, "user", "password123");
+        assertThat(user).isEqualTo(user);
+    }
+
+    @Test
+    void testEqualsWithDifferentObjectType() {
+        Users user = new Users(1, "user", "password123");
+        String str = "Not a user object";
+        assertThat(user).isNotEqualTo(str);
+    }
+
+    @Test
     public void testRegisterSuccess() throws Exception {
         Users user = new Users("user", "password123");
         when(userService.registerUser("user", "password123")).thenReturn(user);
@@ -125,7 +125,8 @@ void testEqualsWithDifferentObjectType() {
 
     @Test
     public void testRegisterFailure() throws Exception {
-        when(userService.registerUser("user", "password123")).thenThrow(new PreexistingUsernameException("Username exists"));
+        when(userService.registerUser("user", "password123"))
+                .thenThrow(new PreexistingUsernameException("Username exists"));
 
         mockMvc.perform(post("/register")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -147,7 +148,8 @@ void testEqualsWithDifferentObjectType() {
 
     @Test
     public void testLoginFailure() throws Exception {
-        when(userService.loginUser("user", "password123")).thenThrow(new IncorrectLoginException("Incorrect login credentials"));
+        when(userService.loginUser("user", "password123"))
+                .thenThrow(new IncorrectLoginException("Incorrect login credentials"));
 
         mockMvc.perform(post("/login")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -169,9 +171,9 @@ void testEqualsWithDifferentObjectType() {
     public void testEditRole() throws Exception {
         Users user = new Users(1, "user", "password123");
         user.setRole("Manager");
- 
+
         when(userService.editRole(1, "Manager")).thenReturn(user);
-    
+
         mockMvc.perform(patch("/manager/editrole/{userid}", 1)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"role\":\"Manager\"}"))
@@ -179,4 +181,3 @@ void testEqualsWithDifferentObjectType() {
                 .andExpect(jsonPath("$.role").value("Manager"));
     }
 }
-

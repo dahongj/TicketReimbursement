@@ -16,7 +16,6 @@ import com.ticket.web.service.UserService;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
-import java.util.List;
 
 @SpringBootTest
 @AutoConfigureMockMvc

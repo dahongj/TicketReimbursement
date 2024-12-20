@@ -48,7 +48,7 @@ const Register: React.FC = () => {
               Password
             </label>
             <input
-              type="text"
+              type="password"
               name="password"
               placeholder="Choose a password"
               onChange={handleChange}

@@ -57,7 +57,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
               Password
             </label>
             <input
-              type="text"
+              type="password"
               name="password"
               placeholder="Enter password"
               onChange={handleChange}
