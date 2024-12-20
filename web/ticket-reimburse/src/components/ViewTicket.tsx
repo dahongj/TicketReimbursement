@@ -62,7 +62,6 @@ const ViewTicketsPage: React.FC<ViewTicketsPageProps> = ({ accountId }) => {
   );
 };
 
-// Inline styles
 const containerStyle: React.CSSProperties = {
   display: "flex",
   flexDirection: "column",
